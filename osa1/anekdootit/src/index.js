@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 const App = ({anecdotes}) => {
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(new Array(anecdotes.length).fill(0))
-  console.log(points)
 
   const setSelectedToValue = (newValue) => {
     setSelected(newValue)
@@ -16,25 +15,45 @@ const App = ({anecdotes}) => {
     setPoints(copy)
   }
 
+  const getMostVoted = () => {
+    return anecdotes[points.indexOf(getMostPoints())]
+  }
+
+  const getMostPoints = () => {
+    return Math.max(...points)
+  }
+
   const getRandomInteger = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
   }
 
   return (
     <div>
-      {anecdotes[selected]}
-      <div>
-        has {points[selected]} votes
-      </div>
+      <Header value="Anecdote of the day" />
+      <Anecdote anecdote={anecdotes[selected]} points={points[selected]}/>
       <div>
         <button onClick={() => voteAnecdote()}>Vote</button>
         <button onClick={() => setSelectedToValue(getRandomInteger(0,anecdotes.length - 1))}>
           Next anecdote
         </button>
       </div>
+      <Header value="Anecdote with most votes" />
+      <Anecdote anecdote={getMostVoted()} points={getMostPoints()}/>
     </div>
   )
 }
+
+const Anecdote = (props) => {
+
+  return (
+    <div>
+      <div>{props.anecdote}</div>
+      <div>has {props.points} votes</div>
+    </div>
+  )
+}
+
+const Header = props => <h1>{props.value}</h1>
 
 const anecdotes = [
   'If it hurts, do it more often',
