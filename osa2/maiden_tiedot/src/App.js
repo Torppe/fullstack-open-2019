@@ -3,6 +3,7 @@ import axios from 'axios'
 
 const App = () => {
   const [countries, setCountries] = useState([])
+  const [filteredCountries, setFilteredCountries] = useState([])
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
@@ -13,27 +14,25 @@ const App = () => {
       })
   }, [])
 
-  const getFilteredCountries = () => {
-    const regex = new RegExp(filter, "i")
-    return countries.filter(country => country.name.match(regex))
+  const handleFilterChange = (event) => {
+    const regex = new RegExp(event.target.value, "i")
+    setFilter(event.target.value)
+    setFilteredCountries(countries.filter(country => country.name.match(regex)))
   }
 
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value)
+  const handleClick = (country) => {
+    setFilteredCountries(countries.filter(c => c.name === country.name))
   }
 
   return (
     <div>
       <div>Find countries<input value={filter} onChange={handleFilterChange} /></div>
-      <Countries countries={getFilteredCountries()} />
+      <Countries countries={filteredCountries} handleClick={handleClick} />
     </div>
   )
-
 }
 
-const Countries = ({ countries }) => {
-  const names = countries.map(c => <div key={c.name}>{c.name}</div>)
-
+const Countries = ({ countries, handleClick}) => {
   if (countries.length > 10) {
     return (
       <div>
@@ -45,6 +44,7 @@ const Countries = ({ countries }) => {
       <Country country={countries[0]} />
     )
   } else {
+    const names = countries.map(c => <div key={c.name}>{c.name}<button onClick={() => handleClick(c)}>show</button></div>)
     return (
       <div>
         {names}
