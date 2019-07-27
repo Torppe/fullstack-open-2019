@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 const App = () => {
+
   const [countries, setCountries] = useState([])
   const [filteredCountries, setFilteredCountries] = useState([])
   const [filter, setFilter] = useState('')
@@ -27,7 +28,7 @@ const App = () => {
   return (
     <div>
       <div>Find countries<input value={filter} onChange={handleFilterChange} /></div>
-      <Countries countries={filteredCountries} handleClick={handleClick} />
+      <Countries countries={filteredCountries} handleClick={handleClick}/>
     </div>
   )
 }
@@ -66,8 +67,42 @@ const Country = ({country}) => {
         {languages}
       </ul>
       <img width="100" src={country.flag} alt="flag" />
+      <Weather country={country}/>
     </div>
   )
+}
+
+const Weather = (props) => {
+  const [weatherData, setWeatherData] = useState([])
+  const url = `http://api.apixu.com/v1/current.json?key=f8234d244c1142f58f3130223192707&q=${props.country.name}`
+
+  useEffect(() => {
+    axios
+    .get(url)
+    .then(response => {
+      setWeatherData(response.data)
+    })
+  } , [])
+
+  console.log(weatherData)
+
+  if(weatherData.length === 0){
+    return(
+      <div>
+        Älä sitten renderöi
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <h2>Weather in {weatherData.location.name}</h2>
+        <h3>Temperature (Celsius): {weatherData.current.temp_c}</h3>
+        <img src={weatherData.current.condition.icon} alt="condition"/>
+        <h3>Wind (kph): {weatherData.current.wind_kph}</h3>
+      </div>
+    )
+  }
+
 }
 
 export default App
