@@ -36,10 +36,29 @@ const App = () => {
             setPersons(persons.map(p => p.id !== personObject.id ? p : returnedPerson))
             setNewName("")
             setNewNumber("")
-            setErrorMessage(`Updated phone number of ${returnedPerson.name}!`)
+
+            const message = {
+              message: `Updated phone number of ${returnedPerson.name}!`,
+              successful: true
+            }
+  
+            setErrorMessage(message)
             setTimeout(() => {
               setErrorMessage(null)
             }, 5000)
+          })
+          .catch(error => {
+            const message = {
+              message: `Information of ${personObject.name} has already been removed from server!`,
+              successful: false
+            }
+
+            setErrorMessage(message)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+
+            setPersons(persons.filter(p => p.id !== personObject.id))
           })
       }
     } else {
@@ -53,7 +72,13 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName("")
           setNewNumber("")
-          setErrorMessage(`${returnedPerson.name} added!`)
+
+          const message = {
+            message: `${returnedPerson.name} added!`,
+            successful: true
+          }
+
+          setErrorMessage(message)
           setTimeout(() => {
             setErrorMessage(null)
           }, 5000)
@@ -69,7 +94,13 @@ const App = () => {
         .deletePerson(id)
         .then(response => {
           setPersons(persons.filter(p => p.id !== id))
-          setErrorMessage(`${person.name} deleted!`)
+
+          const message = {
+            message: `${person.name} deleted!`,
+            successful: true
+          }
+
+          setErrorMessage(message)
           setTimeout(() => {
             setErrorMessage(null)
           }, 5000)
@@ -113,9 +144,18 @@ const App = () => {
 }
 
 const Notification = ({message}) => {
-  const notificationStyle = {
+  const successStyle = {
     color: 'black',
     background: '#87ff87',
+    fontSize: 20,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+  }
+
+  const errorStyle = {
+    color: 'black',
+    background: 'red',
     fontSize: 20,
     borderRadius: 5,
     padding: 10,
@@ -127,8 +167,8 @@ const Notification = ({message}) => {
   }
 
   return (
-    <div style={notificationStyle}>
-      {message}
+    <div style={message.successful ? successStyle : errorStyle}>
+      {message.message}
     </div>
   )
 }
