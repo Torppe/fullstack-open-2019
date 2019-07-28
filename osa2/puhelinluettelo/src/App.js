@@ -9,6 +9,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -32,10 +33,13 @@ const App = () => {
         personService
           .update(personObject.id, personObject)
           .then(returnedPerson => {
-            console.log("phone number updated!")
             setPersons(persons.map(p => p.id !== personObject.id ? p : returnedPerson))
             setNewName("")
             setNewNumber("")
+            setErrorMessage(`Updated phone number of ${returnedPerson.name}!`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
           })
       }
     } else {
@@ -46,24 +50,29 @@ const App = () => {
       personService
         .create(personObject)
         .then(returnedPerson => {
-          console.log("new person added!")
           setPersons(persons.concat(returnedPerson))
           setNewName("")
           setNewNumber("")
+          setErrorMessage(`${returnedPerson.name} added!`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
         })
     }
   }
 
   const deletePerson = id => {
-    console.log(id)
     const person = persons.find(person => person.id === id)
 
     if(window.confirm(`Do you want to delete ${person.name}?`)){
       personService
         .deletePerson(id)
         .then(response => {
-          console.log(`${person.name} deleted!`)
           setPersons(persons.filter(p => p.id !== id))
+          setErrorMessage(`${person.name} deleted!`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
         })
     }
   }
@@ -88,6 +97,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage}/>
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h2>Add a new</h2>
       <PersonForm newName={newName}
@@ -100,6 +110,27 @@ const App = () => {
     </div>
   )
 
+}
+
+const Notification = ({message}) => {
+  const notificationStyle = {
+    color: 'black',
+    background: '#87ff87',
+    fontSize: 20,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+  }
+
+  if(message === null){
+    return null
+  }
+
+  return (
+    <div style={notificationStyle}>
+      {message}
+    </div>
+  )
 }
 
 export default App
