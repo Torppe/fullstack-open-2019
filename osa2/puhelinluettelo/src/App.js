@@ -40,6 +40,20 @@ const App = () => {
     }
   }
 
+  const deletePerson = id => {
+    console.log(id)
+    const person = persons.find(person => person.id === id)
+
+    if(window.confirm(`Do you want to delete ${person.name}?`)){
+      personService
+        .deletePerson(id)
+        .then(response => {
+          console.log(`${person.name} deleted!`)
+          setPersons(persons.filter(p => p.id !== id))
+        })
+    }
+  }
+
   const getFilteredPersons = () => {
     const regex = new RegExp(filter, "i")
     return persons.filter(person => person.name.match(regex))
@@ -68,7 +82,7 @@ const App = () => {
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
-      <Persons persons={getFilteredPersons()} />
+      <Persons persons={getFilteredPersons()} deletePerson={deletePerson}/>
     </div>
   )
 
