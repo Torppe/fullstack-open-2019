@@ -19,6 +19,18 @@ const App = () => {
       })
   }, [])
 
+  const generateMessage = (message, isSuccessful) => {
+    const errorMessage = {
+      message: message,
+      successful: isSuccessful
+    }
+
+    setErrorMessage(errorMessage)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  } 
+
   const addPerson = (event) => {
     event.preventDefault()
     const names = persons.map(person => person.name)
@@ -36,28 +48,10 @@ const App = () => {
             setPersons(persons.map(p => p.id !== personObject.id ? p : returnedPerson))
             setNewName("")
             setNewNumber("")
-
-            const message = {
-              message: `Updated phone number of ${returnedPerson.name}!`,
-              successful: true
-            }
-  
-            setErrorMessage(message)
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 5000)
+            generateMessage(`Updated phone number of ${returnedPerson.name}!`, true)
           })
           .catch(error => {
-            const message = {
-              message: `Information of ${personObject.name} has already been removed from server!`,
-              successful: false
-            }
-
-            setErrorMessage(message)
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 5000)
-
+            generateMessage(`Information of ${personObject.name} has already been removed from server!`, false)
             setPersons(persons.filter(p => p.id !== personObject.id))
           })
       }
@@ -72,16 +66,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName("")
           setNewNumber("")
-
-          const message = {
-            message: `${returnedPerson.name} added!`,
-            successful: true
-          }
-
-          setErrorMessage(message)
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
+          generateMessage(`${returnedPerson.name} added!`, true)
+        })
+        .catch(error => {
+          generateMessage(error.response.data, false)
         })
     }
   }
@@ -94,16 +82,7 @@ const App = () => {
         .deletePerson(id)
         .then(response => {
           setPersons(persons.filter(p => p.id !== id))
-
-          const message = {
-            message: `${person.name} deleted!`,
-            successful: true
-          }
-
-          setErrorMessage(message)
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 5000)
+          generateMessage(`${person.name} deleted!`, true)
         })
     }
   }
