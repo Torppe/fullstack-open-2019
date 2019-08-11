@@ -34,6 +34,30 @@ describe("when there is initially one user at db", () => {
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
   })
+
+  test("invalid password and username returns error", async () => {
+    let newUser = {
+      username: "us",
+      name: "nimi",
+      password: "salis"
+    }
+
+    await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+
+    newUser = {
+      userName: "user",
+      name: "nimi",
+      password: "sa"
+    }
+
+    await api
+      .post("/api/users")
+      .send(newUser)
+      .expect(400)
+  })
 })
 
 afterAll(() => {
