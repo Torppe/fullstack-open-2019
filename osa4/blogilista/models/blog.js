@@ -1,5 +1,8 @@
 const mongoose = require("mongoose")
 
+//deprecation warningia varten
+mongoose.set("useFindAndModify", false)
+
 const blogSchema = mongoose.Schema({
   title: String,
   author: String,

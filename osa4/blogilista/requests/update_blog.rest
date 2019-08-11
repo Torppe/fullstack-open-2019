@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/5d46af19b8760f2500a9d698
+Content-Type: application/json
+
+{
+  "author": "Herra Hubert",
+  "title": "Sensational title",
+  "url": "www.herrahubertinsivut.com",
+  "likes": 500
+}
