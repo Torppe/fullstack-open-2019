@@ -63,14 +63,14 @@ describe("GET blogs", () => {
 
 describe("POST blogs", () => {
   const path = "/api/blogs"
-  const newBlog = {
-    author: "Post Testi",
-    title: "Sensational title",
-    url: "www.blabalbalbabl.com",
-    likes: 4
-  }
 
   test("a new blog is added", async () => {
+    const newBlog = {
+      author: "Post Testi",
+      title: "Sensational title",
+      url: "www.blabalbalbabl.com",
+      likes: 4
+    }
     await api
       .post(path)
       .send(newBlog)
@@ -88,6 +88,19 @@ describe("POST blogs", () => {
 
     expect(response.body.length).toBe(initialBlogs.length + 1)
     expect(results).toContainEqual(newBlog)
+  })
+
+  test("likes equals to 0 as default if likes is not passed", async () => {
+    const newBlog = {
+      author: "testi2",
+      title: "testi title 2",
+      url: "testi url 2"
+    }
+    const response = await api
+      .post(path)
+      .send(newBlog)
+    console.log(response.body)
+    expect(response.body.likes).toBe(0)
   })
 })
 
