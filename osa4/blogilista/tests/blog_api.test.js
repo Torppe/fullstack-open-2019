@@ -90,7 +90,7 @@ describe("POST blogs", () => {
     expect(results).toContainEqual(newBlog)
   })
 
-  test("likes equals to 0 as default if likes is not passed", async () => {
+  test("if likes not passed default to 0", async () => {
     const newBlog = {
       author: "testi2",
       title: "testi title 2",
@@ -99,8 +99,38 @@ describe("POST blogs", () => {
     const response = await api
       .post(path)
       .send(newBlog)
-    console.log(response.body)
     expect(response.body.likes).toBe(0)
+  })
+
+  test("respond with status 400 if title or url is missing", async () => {
+    let newBlog = {
+      author: "testi3",
+      title: "testi title 3"
+    }
+
+    const response = await api
+      .post(path)
+      .send(newBlog)
+      .expect(400)
+
+    newBlog = {
+      author: "testi4",
+      url: "testi url4"
+    }
+
+    await api
+      .post(path)
+      .send(newBlog)
+      .expect(400)
+
+    newBlog = {
+      author: "testi4"
+    }
+
+    await api
+      .post(path)
+      .send(newBlog)
+      .expect(400)
   })
 })
 
