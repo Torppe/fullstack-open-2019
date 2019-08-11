@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "author": "Herra Hubert",
+  "author": "Testi Neiti",
   "title": "Sensational title",
-  "url": "www.herrahubertinsivut.com",
+  "url": "www.neitihubertinsivut.com",
   "likes": 5
 }
