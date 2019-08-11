@@ -63,26 +63,33 @@ describe("GET blogs", () => {
 
 describe("POST blogs", () => {
   const path = "/api/blogs"
+  const newBlog = {
+    author: "Post Testi",
+    title: "Sensational title",
+    url: "www.blabalbalbabl.com",
+    likes: 4
+  }
 
-  test("blogs are returned as json", async () => {
+  test("a new blog is added", async () => {
     await api
-      .get(path)
-      .expect(200)
+      .post(path)
+      .send(newBlog)
+      .expect(201)
       .expect("Content-Type", /application\/json/)
-  })
 
-  test("return 3 blogs", async () => {
     const response = await api.get(path)
 
-    expect(response.body.length).toBe(initialBlogs.length)
-  })
+    const results = response.body.map(b => ({
+      author: b.author,
+      title: b.title,
+      url: b.url,
+      likes: b.likes
+    }))
 
-  test("field is called id instead of _id", async () => {
-    const response = await api.get(path)
-    expect(response.body[0].id).toBeDefined()
+    expect(response.body.length).toBe(initialBlogs.length + 1)
+    expect(results).toContainEqual(newBlog)
   })
 })
-
 
 afterAll(() => {
   mongoose.connection.close()
