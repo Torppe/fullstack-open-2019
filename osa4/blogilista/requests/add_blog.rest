@@ -3,8 +3,8 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RpdXNlcm5hbWUiLCJpZCI6IjVkNTA0NmNhYzc3NWUzMTBhNDFhMTZkYSIsImlhdCI6MTU2NTU0MzgyOH0.LfWLGN7g-eyagQarE5eDuL9Pi_MtiX7WRkJK2nk87J8
 
 {
-  "author": "Token author",
-  "title": "Token title",
+  "author": "Token3",
+  "title": "Token3",
   "url": "www.tokeninsivut.com",
   "likes": 5
 }

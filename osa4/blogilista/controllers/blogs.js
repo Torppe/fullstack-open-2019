@@ -9,31 +9,19 @@ blogsRouter.get("/", async (request, response) => {
   response.json(blogs.map(blog => blog.toJSON()))
 })
 
-const getTokenFrom = request => {
-  const authorization = request.get("authorization")
-  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
-    return authorization.substring(7)
-  }
-  return null
-}
-
 blogsRouter.post("/", async (request, response, next) => {
   const body = request.body
-
-  const token = getTokenFrom(request)
 
   if(!body.title || !body.url){
     response.status(400).end()
   } else {
     try{
-      const decodedToken = jwt.verify(token, process.env.SECRET)
-      if(!token || !decodedToken.id) {
+      const decodedToken = jwt.verify(request.token, process.env.SECRET)
+      if(!request.token || !decodedToken.id) {
         return response.status(401).json({ error: "token missing or invalid" })
       }
 
       const user = await User.findById(decodedToken.id)
-      // const users = await User.find({})
-      // const user = users[0]
 
       const blog = new Blog({
         author: body.author,
@@ -59,9 +47,28 @@ blogsRouter.post("/", async (request, response, next) => {
   }
 })
 
-blogsRouter.delete("/:id", async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
-  response.status(204).end()
+blogsRouter.delete("/:id", async (request, response, next) => {
+  try {
+    const blog = await Blog.findById(request.params.id)
+    if(!blog) {
+      response.status(401).send({ error: "invalid blog" })
+    }
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if(!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: "token missing or invalid" })
+    }
+    const userid = decodedToken.id
+    if(blog.user.toString() === userid.toString()) {
+      await Blog.findByIdAndRemove(request.params.id)
+      response.status(204).end()
+    } else {
+      response.status(400).send({ error: "user doesn't have permission to remove this blog" })
+    }
+  } catch (exception) {
+    next(exception)
+  }
+
 })
 
 blogsRouter.put("/:id", async (request, response) => {
