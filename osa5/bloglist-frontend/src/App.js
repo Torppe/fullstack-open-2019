@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Blog from "./components/Blog"
 import BlogForm from "./components/BlogForm"
+import Notification from "./components/Notification"
 import blogService from "./services/blogs"
 import loginService from "./services/login"
 
@@ -9,6 +10,7 @@ const App = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState("")
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -44,7 +46,10 @@ const App = () => {
       setPassword("")
       console.log("login succesful!")
     } catch(exception) {
-      console.log("login failed", exception.message)
+      setNotification("wrong username or password")
+      setTimeout(() => {
+        setNotification("")
+      }, 5000)
     }
   }
 
@@ -57,6 +62,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
+        <Notification notification={notification}/>
         <form onSubmit={handleLogin}>
           <div>username 
             <input 
@@ -83,8 +89,9 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification notification={notification}/>
       <p>{user.name} logged in<button onClick={handleLogout}>logout</button></p>
-      <BlogForm blogs={blogs} setBlogs={setBlogs} />
+      <BlogForm blogs={blogs} setBlogs={setBlogs} setNotification={setNotification}/>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}

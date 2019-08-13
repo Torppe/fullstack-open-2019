@@ -16,7 +16,6 @@ const create = async newBlog => {
   const config = {
     headers: { Authorization: token }
   }
-  console.log(token)
   const result = await axios.post(baseUrl, newBlog, config)
   return result.data
 }

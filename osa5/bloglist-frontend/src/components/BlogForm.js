@@ -19,8 +19,16 @@ const BlogForm = (props) => {
     try {
       const result = await blogService.create(newBlog)
       props.setBlogs(props.blogs.concat(result))
+
+      props.setNotification(`a new blog "${result.title}" by ${result.author} added`)
+      setTimeout(() => {
+        props.setNotification("")
+      }, 5000)
     } catch(exception) {
-      console.log("error while adding a new blog",exception.message)
+      props.setNotification("Failed to add a new blog")
+      setTimeout(() => {
+        props.setNotification("")
+      }, 5000)
     }
   }
 
