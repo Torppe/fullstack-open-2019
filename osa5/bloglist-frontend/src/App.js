@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Blog from "./components/Blog"
+import BlogForm from "./components/BlogForm"
 import blogService from "./services/blogs"
 import loginService from "./services/login"
 
@@ -23,6 +24,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -36,12 +38,13 @@ const App = () => {
 
       window.localStorage.setItem("loggedInUser", JSON.stringify(userResponse))
 
+      blogService.setToken(userResponse.token)
       setUser(userResponse)
       setUsername("")
       setPassword("")
       console.log("login succesful!")
     } catch(exception) {
-      console.log("login failed")
+      console.log("login failed", exception.message)
     }
   }
 
@@ -81,6 +84,7 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <p>{user.name} logged in<button onClick={handleLogout}>logout</button></p>
+      <BlogForm blogs={blogs} setBlogs={setBlogs} />
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
