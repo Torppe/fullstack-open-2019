@@ -2,7 +2,7 @@ import React from "react"
 
 const Notification = (props) => {
   const style = {
-    color: 'black',
+    color: "black",
     border: "1px solid black",
     fontSize: 20,
     borderRadius: 5,

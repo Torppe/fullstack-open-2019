@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import blogService from "../services/blogs"
+import PropTypes from "prop-types"
 
 const BlogForm = ({ blogs, setBlogs, setNotification }) => {
 
@@ -38,18 +39,24 @@ const BlogForm = ({ blogs, setBlogs, setNotification }) => {
   return (
     <form onSubmit={addBlog}>
       <h2>Create new</h2>
-      <div>Title: 
+      <div>Title:
         <input value={title} onChange={({ target }) => setTitle(target.value)} />
       </div>
-      <div>Author: 
+      <div>Author:
         <input value={author} onChange={({ target }) => setAuthor(target.value)} />
       </div>
-      <div>Url: 
+      <div>Url:
         <input value={url} onChange={({ target }) => setUrl(target.value)} />
       </div>
       <button type="submit">create</button>
     </form>
   )
+}
+
+BlogForm.propTypes = {
+  blogs: PropTypes.array.isRequired,
+  setBlogs: PropTypes.func.isRequired,
+  setNotification: PropTypes.func.isRequired
 }
 
 export default BlogForm

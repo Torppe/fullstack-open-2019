@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react"
 import Blog from "./components/Blog"
 import BlogForm from "./components/BlogForm"
 import Notification from "./components/Notification"
@@ -23,7 +23,7 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedInUser')
+    const loggedUserJSON = window.localStorage.getItem("loggedInUser")
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
@@ -58,7 +58,7 @@ const App = () => {
     }
   }
 
-  const handleLogout = (event) => {
+  const handleLogout = () => {
     window.localStorage.removeItem("loggedInUser")
     setUser(null)
   }
@@ -95,18 +95,18 @@ const App = () => {
         <h2>Log in to application</h2>
         <Notification notification={notification}/>
         <form onSubmit={handleLogin}>
-          <div>username 
-            <input 
+          <div>username
+            <input
               type="text"
               value={username}
               name="Username"
               onChange={({ target }) => setUsername(target.value)}
             />
           </div>
-          <div>password 
-            <input 
-              type="password" 
-              value={password} 
+          <div>password
+            <input
+              type="password"
+              value={password}
               name="Password"
               onChange={({ target }) => setPassword(target.value)}
             />
@@ -123,9 +123,9 @@ const App = () => {
       <Notification notification={notification}/>
       <p>{user.name} logged in<button onClick={handleLogout}>logout</button></p>
       <Toggleable buttonLabel="new blog">
-        <BlogForm 
-          blogs={blogs} 
-          setBlogs={setBlogs} 
+        <BlogForm
+          blogs={blogs}
+          setBlogs={setBlogs}
           setNotification={setNotification}
         />
       </Toggleable>
@@ -134,7 +134,7 @@ const App = () => {
   )
 }
 
-const Blogs = ({ handleLike, handleDelete, blogs}) => {
+const Blogs = ({ handleLike, handleDelete, blogs }) => {
 
   return (
     <div>
@@ -143,4 +143,4 @@ const Blogs = ({ handleLike, handleDelete, blogs}) => {
   )
 }
 
-export default App;
+export default App
