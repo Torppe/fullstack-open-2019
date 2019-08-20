@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import blogService from "../services/blogs"
 
-const BlogForm = (props) => {
+const BlogForm = ({ blogs, setBlogs, setNotification }) => {
 
   const [title, setTitle] = useState("")
   const [author, setAuthor] = useState("")
@@ -18,16 +18,19 @@ const BlogForm = (props) => {
 
     try {
       const result = await blogService.create(newBlog)
-      props.setBlogs(props.blogs.concat(result))
+      setBlogs(blogs.concat(result))
+      setTitle("")
+      setAuthor("")
+      setUrl("")
 
-      props.setNotification(`a new blog "${result.title}" by ${result.author} added`)
+      setNotification(`a new blog "${result.title}" by ${result.author} added`)
       setTimeout(() => {
-        props.setNotification("")
+        setNotification("")
       }, 5000)
     } catch(exception) {
-      props.setNotification("Failed to add a new blog")
+      setNotification("Failed to add a new blog")
       setTimeout(() => {
-        props.setNotification("")
+        setNotification("")
       }, 5000)
     }
   }
@@ -44,7 +47,7 @@ const BlogForm = (props) => {
       <div>Url: 
         <input value={url} onChange={({ target }) => setUrl(target.value)} />
       </div>
-      <button type="submit" >create</button>
+      <button type="submit">create</button>
     </form>
   )
 }
