@@ -12,7 +12,7 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
 
   if(showDetails) {
     return(
-      <div style={blogStyle} onClick={() => setShowDetails(!showDetails)}>
+      <div className="toggleableContent blog" style={blogStyle} onClick={() => setShowDetails(!showDetails)}>
         <div>{blog.title}</div>
         <div>{blog.url}</div>
         <div>{blog.likes}<button onClick={() => handleLike(blog)}>like</button></div>
@@ -22,7 +22,7 @@ const Blog = ({ blog, handleLike, handleDelete }) => {
     )
   } else {
     return (
-      <div style={blogStyle} onClick={() => setShowDetails(!showDetails)}>
+      <div className="clickableContent blog" style={blogStyle} onClick={() => setShowDetails(!showDetails)}>
         <div>{blog.title} {blog.author}</div>
       </div>
     )
