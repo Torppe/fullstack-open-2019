@@ -1,0 +1,6 @@
+POST http://localhost:3003/api/blogs/5d46af19b8760f2500a9d698/comments
+Content-Type: application/json
+
+{
+  "comment": "pls subscribe!"
+}
