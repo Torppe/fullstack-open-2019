@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import Container from "@material-ui/core/Container"
 import Notification from "./components/Notification"
 import {
   BrowserRouter as Router,
@@ -14,6 +15,7 @@ import Toggleable from "./components/Toggleable"
 import BlogForm from "./components/BlogForm"
 import { initializeBlogs } from "./reducers/blogReducer"
 import { connect } from "react-redux"
+import { Typography } from "@material-ui/core";
 
 const App = (props) => {
   const [users, setUsers] = useState([])
@@ -27,21 +29,23 @@ const App = (props) => {
   }
   if (!props.user) {
     return (
-      <div>
+      <Container>
         <Notification />
         <LoginForm />
-      </div>
+      </Container>
     )
   }
 
   return (
-    <div>
+    <Container>
       <Router>
         <Menu />
         <Notification />
         <Route exact path="/" render={() =>
           <div>
-            <h2>Blogs</h2>
+            <Typography variant="h4" component="h2" gutterBottom>
+              Blogs
+            </Typography>
             <Toggleable buttonLabel="new blog">
               <BlogForm />
             </Toggleable>
@@ -58,7 +62,7 @@ const App = (props) => {
           <User user={userById(match.params.id)} />
         } />
       </Router>
-    </div>
+    </Container>
   )
 }
 

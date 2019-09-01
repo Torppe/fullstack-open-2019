@@ -2,12 +2,11 @@ import React from "react"
 import { connect } from "react-redux"
 import { Link, withRouter } from "react-router-dom"
 import { logout } from "../reducers/loginReducer"
+import AppBar from "@material-ui/core/AppBar"
+import Toolbar from "@material-ui/core/Toolbar"
+import Button from "@material-ui/core/Button"
 
 const Menu = (props) => {
-  const padding = {
-    paddingRight: 5
-  }
-
   const handleLogout = async () => {
     await props.logout()
     props.history.push("/")
@@ -15,12 +14,19 @@ const Menu = (props) => {
 
   return (
     <div>
-      <Link style={padding} to="/">blogs</Link>
-      <Link style={padding} to="/users">users</Link>
-      {props.user.name} logged in <button onClick={handleLogout}>logout</button>
+      <AppBar position="static">
+        <Toolbar>
+          <div style={{ flex: 1 }}>
+            <Button to="/" color="inherit" component={Link}>blogs</Button>
+            <Button to="/users"  color="inherit" component={Link}>users</Button>
+          </div>
+          <Button onClick={handleLogout} color="inherit">logout</Button>
+        </Toolbar>
+      </AppBar>
     </div>
   )
 }
+
 const mapStateToProps = state => {
   return {
     user: state.user

@@ -3,6 +3,7 @@ import { connect } from "react-redux"
 import { useField } from "../hooks"
 import { login } from "../reducers/loginReducer"
 import { setNotification } from "../reducers/notificationReducer"
+import { Paper, Button, TextField } from "@material-ui/core"
 
 const LoginForm = ({ setNotification, login }) => {
   const username = useField("text")
@@ -26,20 +27,40 @@ const LoginForm = ({ setNotification, login }) => {
 
   return (
     <div>
-      <h2>Log in to application</h2>
-      <form onSubmit={handleLogin}>
-        <div>username
-          <input
-            {...username}
-          />
-        </div>
-        <div>password
-          <input
-            {...password}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
+      <Paper style={{
+        padding: "2em",
+        display: "flex",
+        justifyContent: "center",
+        margin: "1em"
+      }}>
+        <form onSubmit={handleLogin}>
+          <h2>Log in to application</h2>
+          <div>
+            <TextField
+              placeholder="Username"
+              variant="outlined"
+              margin="dense"
+              {...username}
+            />
+          </div>
+          <div>
+            <TextField
+              placeholder="Password"
+              variant="outlined"
+              margin="dense"
+              {...password}
+            />
+          </div>
+          <div>
+            <Button
+              color="primary"
+              variant="contained"
+              type="submit">
+                login
+            </Button>
+          </div>
+        </form>
+      </Paper>
     </div>
   )
 }

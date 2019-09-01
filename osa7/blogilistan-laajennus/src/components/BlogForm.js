@@ -2,6 +2,8 @@ import React, { useState } from "react"
 import { setNotification } from "../reducers/notificationReducer"
 import { createBlog } from "../reducers/blogReducer"
 import { connect } from "react-redux"
+import { Button, Typography } from "@material-ui/core"
+import TextField from "@material-ui/core/TextField"
 
 const BlogForm = (props) => {
 
@@ -32,17 +34,37 @@ const BlogForm = (props) => {
 
   return (
     <form onSubmit={addBlog}>
-      <h2>Create new</h2>
-      <div>Title:
-        <input value={title} onChange={({ target }) => setTitle(target.value)} />
+      <Typography variant="h5" component="h2" gutterBottom>
+        Create new
+      </Typography>
+      <div>
+        <TextField
+          label="title"
+          value={title}
+          onChange={({ target }) => setTitle(target.value)}
+          margin="normal"
+          variant="outlined"
+        />
       </div>
-      <div>Author:
-        <input value={author} onChange={({ target }) => setAuthor(target.value)} />
+      <div>
+        <TextField
+          label="author"
+          value={author}
+          onChange={({ target }) => setAuthor(target.value)}
+          margin="normal"
+          variant="outlined"
+        />
       </div>
-      <div>Url:
-        <input value={url} onChange={({ target }) => setUrl(target.value)} />
+      <div>
+        <TextField
+          label="url"
+          value={url}
+          onChange={({ target }) => setUrl(target.value)}
+          margin="normal"
+          variant="outlined"
+        />
       </div>
-      <button type="submit">create</button>
+      <Button variant="contained" color="primary" type="submit">create</Button>
     </form>
   )
 }

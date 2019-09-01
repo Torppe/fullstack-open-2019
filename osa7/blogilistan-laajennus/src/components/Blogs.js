@@ -1,16 +1,13 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import { connect } from "react-redux"
+import Table from "@material-ui/core/Table"
+import TableCell from "@material-ui/core/TableCell"
+import TableHead from "@material-ui/core/TableHead"
+import TableRow from "@material-ui/core/TableRow"
+import TableBody from "@material-ui/core/TableBody"
 
 const Blogs = (props) => {
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  }
 
   const sortBlogs = (blogs) => {
     return blogs.sort((a, b) => b.likes - a.likes)
@@ -18,11 +15,20 @@ const Blogs = (props) => {
 
   return (
     <div>
-      {sortBlogs(props.blogs).map(blog =>
-        <div key={blog.id} className="clickableContent blog" style={blogStyle}>
-          <Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link>
-        </div>
-      )}
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>title and author</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {sortBlogs(props.blogs).map(blog =>
+            <TableRow key={blog.id} className="clickableContent blog">
+              <TableCell><Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link></TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
     </div>
   )
 }
