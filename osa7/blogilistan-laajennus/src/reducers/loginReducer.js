@@ -37,6 +37,7 @@ export const logout = () => {
 const loginReducer = (state = initUser(), action) => {
   switch (action.type) {
   case "SET_USER":
+    blogService.setToken(action.data ? action.data.token : null)
     return action.data
   default: return state
   }

@@ -19,6 +19,7 @@ const Menu = (props) => {
           <div style={{ flex: 1 }}>
             <Button to="/" color="inherit" component={Link}>blogs</Button>
             <Button to="/users"  color="inherit" component={Link}>users</Button>
+            {props.user.name} logged in
           </div>
           <Button onClick={handleLogout} color="inherit">logout</Button>
         </Toolbar>

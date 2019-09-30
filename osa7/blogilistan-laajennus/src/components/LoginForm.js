@@ -37,6 +37,7 @@ const LoginForm = ({ setNotification, login }) => {
           <h2>Log in to application</h2>
           <div>
             <TextField
+              id="username"
               placeholder="Username"
               variant="outlined"
               margin="dense"
@@ -45,6 +46,7 @@ const LoginForm = ({ setNotification, login }) => {
           </div>
           <div>
             <TextField
+              id="password"
               placeholder="Password"
               variant="outlined"
               margin="dense"

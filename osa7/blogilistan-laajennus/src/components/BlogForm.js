@@ -39,6 +39,7 @@ const BlogForm = (props) => {
       </Typography>
       <div>
         <TextField
+          id="title"
           label="title"
           value={title}
           onChange={({ target }) => setTitle(target.value)}
@@ -48,6 +49,7 @@ const BlogForm = (props) => {
       </div>
       <div>
         <TextField
+          id="author"
           label="author"
           value={author}
           onChange={({ target }) => setAuthor(target.value)}
@@ -57,6 +59,7 @@ const BlogForm = (props) => {
       </div>
       <div>
         <TextField
+          id="url"
           label="url"
           value={url}
           onChange={({ target }) => setUrl(target.value)}
@@ -64,7 +67,7 @@ const BlogForm = (props) => {
           variant="outlined"
         />
       </div>
-      <Button variant="contained" color="primary" type="submit">create</Button>
+      <Button id="create" variant="contained" color="primary" type="submit">create</Button>
     </form>
   )
 }
